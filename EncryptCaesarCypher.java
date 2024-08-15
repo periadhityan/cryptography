@@ -16,6 +16,7 @@ public class EncryptCaesarCypher
     public static String caesarcypher(String message, int shift)
     {
         String new_message = "";
+        message = message.toLowerCase();
 
         char[] message_array = message.toCharArray();
         
@@ -23,7 +24,13 @@ public class EncryptCaesarCypher
         {
             char c = message_array[i];
 
-            c = (char)((c - 'a' + shift + 26) % 26 + 'a');
+            if(Character.isLetter(c))
+            {
+                c = (char)((c - 'a' + shift + 26) % 26 + 'a');
+            }
+
+            
+
             new_message += c;
         }
 
