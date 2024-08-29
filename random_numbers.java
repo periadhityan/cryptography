@@ -3,6 +3,7 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.security.SecureRandom;
 
 public class random_numbers{
 
@@ -66,7 +67,10 @@ public class random_numbers{
 
         System.out.println("List generated using Random object and a stream: ");
         System.out.println(randomStream);
+        System.out.println();
 
+        SecureRandom secureRandom = new SecureRandom();
+        System.out.println("Random integer generated using Secure Random object: " + secureRandom.nextInt());
 
 
     }
