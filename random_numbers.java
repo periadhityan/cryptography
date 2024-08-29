@@ -1,5 +1,4 @@
-import java.util.Random;
- public class random_numbers{
+public class random_numbers{
 
     public static void main(String args[]){
 
