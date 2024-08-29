@@ -25,7 +25,20 @@ public class random_numbers{
         randomObj.nextBytes(randomBytes);
 
         System.out.println("Random bytes using Random object = " + Arrays.toString(randomBytes));
+
+        Random randomObj2 = new Random();
+        randomObj2.setSeed(10);
+
+        System.out.println("Random integers generated after setting seed value: ");
+        for(int i=0;i<5;i++){
+            System.out.println((i+1) + ". " + randomObj2.nextInt());
+        }
         
+        randomObj2.setSeed(10);
+        System.out.println("Setting seed will generate the same pseudo random sequence: ");
+        for(int i=0;i<5;i++){
+            System.out.println((i+1) + ". " + randomObj2.nextInt());
+        }
 
     }
  }
