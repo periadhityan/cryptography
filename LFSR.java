@@ -22,9 +22,15 @@ public class LFSR{
         String s = "";
         while (n > 0)
         {
-            s =  ( (n % 2 ) == 0 ? "0" : "1") +s;
+            s =  ( (n % 2 ) == 0 ? "0" : "1") + s;
             n = n / 2;
         }
+
+        while(s.length()<16){
+            s = "0" + s;
+        }
+
+        s = "0b" + s;
         return s;
     }
 }
