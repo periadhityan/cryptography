@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class random_numbers{
 
     public static void main(String args[]){
@@ -11,5 +13,10 @@ public class random_numbers{
         System.out.println("Random integer number = " + myRandom_integer);
         System.out.println("Random integer value between an interval = " + myRandom_interval);
 
+        Random randomObj = new Random();
+
+        System.out.println("Random integer using Random object = " + randomObj.nextInt(0, 200));
+        System.out.println("Random float using Random object = " + randomObj.nextFloat(0, 200));
+        System.out.println("Random double using Random object = " + randomObj.nextDouble(0, 200));
     }
  }
