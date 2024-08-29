@@ -70,7 +70,28 @@ public class random_numbers{
         System.out.println();
 
         SecureRandom secureRandom = new SecureRandom();
-        System.out.println("Random integer generated using Secure Random object: " + secureRandom.nextInt());
+        System.out.println("Random integer generated using Secure Random object: ");
+        for(int i=0;i<10;i++){
+            System.out.println((i+1) + ". " + secureRandom.nextInt());
+        }
+        System.out.println();
+
+        SecureRandom secureRandom2 = new SecureRandom();
+        secureRandom2.setSeed(100);
+        System.out.println("Generating random integer using Secure Random object will NOT generate the same pseudo random sequence");
+        System.out.println("Random integer generated using Secure Random object but with seed: ");
+        for(int i=0;i<10;i++){
+            System.out.println((i+1) + ". " + secureRandom2.nextInt());
+        }
+        System.out.println();
+
+        System.out.println("Random integer generated using Secure Random object but with seed round 2: ");
+        for(int i=0;i<10;i++){
+            System.out.println((i+1) + ". " + secureRandom2.nextInt());
+        }
+
+
+        
 
 
     }
