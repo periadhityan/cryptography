@@ -24,40 +24,53 @@ def mod_inverse(e, phi):
             return d
     return ValueError("mod_inverse does not exist")
 
+def RSA():
 
-p, q = generate_prime(1000, 5000), generate_prime(1000, 5000)
+    #Pick 2 prime numbers
+    p, q = generate_prime(1000, 5000), generate_prime(1000, 5000)
 
-while p==q:
-    q = generate_prime(1000, 5000)
+    while p==q:
+        q = generate_prime(1000, 5000)
 
-n = p*q
+    #Calculating the modulus n
+    n = p*q
 
-phi_n = (p-1) * (q-1)
+    #Euler's Totient of n
+    phi_n = (p-1) * (q-1)
 
-e = random.randint(3, phi_n-1)
-
-while math.gcd(e, phi_n) != 1:
+    #Calculating public exponent e
     e = random.randint(3, phi_n-1)
 
-d = mod_inverse(e, phi_n)
+    #e and phi_n (Euler's totient of n) must have the greatest common divisor as 1
+    while math.gcd(e, phi_n) != 1:
+        e = random.randint(3, phi_n-1)
 
-print("Public Key: ", e)
-print("Private Key: ", d)
-print("n: ", n)
-print("Phi of n: ", phi_n)
-print("p: ", p)
-print("q: ", q)
+    #Calculate the mod inverse
+    #mod inverse is the value such that ((d*e) mod phi_n) == 1
+    d = mod_inverse(e, phi_n)
 
-message = "Hello World"
+    print("Public Key: ", e)
+    print("Private Key: ", d)
+    print("n: ", n)
+    print("Phi of n: ", phi_n)
+    print("p: ", p)
+    print("q: ", q)
 
-mesage_encoded = [ord(c) for c in message]
+    message = "Hello World"
 
-ciphertext = [pow(c, e, n) for c in mesage_encoded]
+    #Change the character to integer representation
+    mesage_encoded = [ord(c) for c in message]
 
-print(ciphertext)
+    #the character to the power of e whole thing mod n
+    ciphertext = [pow(c, e, n) for c in mesage_encoded]
 
-message_encoded = [pow(c, d, n) for c in ciphertext]
+    print(ciphertext)
 
-message = "".join(chr(c) for c in message_encoded)
 
-print(message)
+    message_encoded = [pow(c, d, n) for c in ciphertext]
+
+    message = "".join(chr(c) for c in message_encoded)
+
+    print(message)
+
+RSA()
