@@ -73,4 +73,6 @@ def RSA():
 
     print(message)
 
+    return e, n, d
+
 RSA()
