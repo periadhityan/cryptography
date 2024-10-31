@@ -3,7 +3,6 @@ import number_theory, continued_fractions
 def wiener_attack(e, n):
 
     _, convergents = continued_fractions.form_continued_fractions(e, n)
-    print(convergents)
 
     for (k, d) in convergents:
 
