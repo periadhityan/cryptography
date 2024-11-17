@@ -18,4 +18,5 @@ def form_continued_fractions(x: int, y: int) -> tuple[CFList, CVList]:
 
         ppn, ppd = pn, pd
         pn, pd = cn, cd
+        
     return cflist, cvlist
