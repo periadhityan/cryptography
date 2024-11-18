@@ -4,8 +4,8 @@ def wiener_attack(e, n):
 
     _, convergents = continued_fractions.form_continued_fractions(e, n)
 
-    #print_conv = False
-    print_conv = True
+    print_conv = False
+    #print_conv = True
     for (k, d) in convergents:
 
         if(print_conv):
@@ -20,6 +20,7 @@ def wiener_attack(e, n):
             if(disc>=0):
                 t = number_theory.is_perf_sq(disc)
                 if t!=-1 and (s+t)%2==0:
+                    print()
                     print("Wiener Attack Succesful")
                     return d
         if(print_conv):        
