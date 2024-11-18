@@ -17,8 +17,11 @@ def sage_rsa():
     d = Integer(mod(bezout[Integer(1)], phi))
 
     print("n = ", n)
+    print()
     print("e = ", e)
+    print()
     print("d = ", d)
+    print()
 
     return n, e, d
 
