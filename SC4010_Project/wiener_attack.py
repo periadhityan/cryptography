@@ -4,7 +4,14 @@ def wiener_attack(e, n):
 
     _, convergents = continued_fractions.form_continued_fractions(e, n)
 
+    #print_conv = False
+    print_conv = True
     for (k, d) in convergents:
+
+        if(print_conv):
+            print()
+            print("Convergent K = ", k)
+            print("Convergent D = ", d)
 
         if k != 0 and (e*d-1)%k == 0:
             phi = (e*d-1)//k
@@ -15,5 +22,8 @@ def wiener_attack(e, n):
                 if t!=-1 and (s+t)%2==0:
                     print("Wiener Attack Succesful")
                     return d
+        if(print_conv):        
+            print("Invalid convergents")
+
     return "Decryption Exponent Not Found"
     
