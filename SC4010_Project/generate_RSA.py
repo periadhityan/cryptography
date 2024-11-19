@@ -26,7 +26,7 @@ def strong_rsa():
     return n, e, d
 
 def vulnerable_rsa():
-    e = random_prime(2**16-1, False, 2**15)
+    e = random_prime(2**511-1, False, 2**510)
     first_loop = True
     while first_loop or gcd(e, phi) != 1 or n.nbits() != 2048:
         first_loop = False
@@ -50,3 +50,22 @@ def vulnerable_rsa():
     print()
     
     return n, e, d
+
+def gen_rsa(d_bits, prime_bits):
+    e = random_prime(2**d_bits-1, False, 2**(d_bits-1))
+    first_loop = True
+    while first_loop or gcd(e, phi) != 1 or n.bits() != 2048:
+        first_loop = False
+        p = random_prime(2**prime_bits-1, False, 2**(prime_bits-1))
+        q = random_prime(2**prime_bits-1, False, 2**(prime_bits-1))
+
+        n = p*q
+        phi = (p-1) * (q-1)
+
+        bezout = xgcd(e, phi)
+        d = Integer(mod(bezout[1], phi))
+        assert mod(d*e, phi) == 1
+
+        e, d = d, e
+
+        return n, e, d
