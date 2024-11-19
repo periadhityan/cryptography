@@ -1,31 +1,46 @@
-import random, miller_rabin, number_theory
+from sage.all import *
 
+def strong_rsa():
+    p = random_prime(2**1024, False, 2**1023)
+    q = random_prime(2**1024, False, 2**1023)
 
-def get_prime_pair(len_bits):
-
-    p = miller_rabin.gen_prime(len_bits)
-    q = miller_rabin.gen_prime_range(p+1, 2*p)
-
-    return p, q
-
-def gen_vulnerable_keys():
-    len_bits = 1024
-    assert len_bits%4 == 0
-
-    p, q = get_prime_pair(len_bits//2)
     n = p*q
-    phi = number_theory.eulers_totient(p, q)
+    phi = (p - Integer(1)) * (q - Integer(1))
 
-    vuln_d = False
-    i = 0
-    while not vuln_d:
-        if (i%1000000 == 0):
-            print(i, "Finding Vulnerable D")
-        i += 1
-        d = random.getrandbits(len_bits//4)
+    e = ZZ.random_element(phi)
 
-        if (number_theory.gcd(d, phi) == 1 and 36*pow(d, 4) < n):
-            vuln_d = True
+    while(gcd(e, phi) != Integer(1)):
+        e = ZZ.random_element(phi)
+
+    bezout = xgcd(e, phi)
+
+    d = Integer(mod(bezout[Integer(1)], phi))
+
+    print("n = ", n)
+    print()
+    print("e = ", e)
+    print()
+    print("d = ", d)
+    print()
+
+    return n, e, d
+
+def vulnerable_rsa():
+    e = random_prime(2**16-1, False, 2**15)
+    first_loop = True
+    while first_loop or gcd(e, phi) != 1 or N.nbits() != 2048:
+        first_loop = False
+        # Note: Product of two 1024-bit primes not always 2048 bit
+        # As this is just a proof of concept, we just reject if n < 2048 bits.
+        p = random_prime(2**1024-1, False, 2**1023)
+        q = random_prime(2**1024-1, False, 2**1023)
+        N = p * q
+        phi = (p - 1) * (q - 1)
+    bezout = xgcd(e, phi)
+    d = Integer(mod(bezout[1], phi))
+    n = N.nbits()
+    assert mod(d * e, phi) == 1
+    # swap the public and private exponent
+    e, d = d, e
     
-    e = number_theory.modular_inverse(d, phi)
-    return e, n, d
+    return N, e, d
