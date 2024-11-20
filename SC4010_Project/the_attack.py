@@ -70,10 +70,10 @@ def main():
     print("Decryption Exponent D Found Using Wiener's Attack = {}\n".format(wiener_d))
     print("Bit Length of Decryption Exponent D = {}\n".format(wiener_d.bit_length()))
 
-    if(d < boneh_param):
+    if(d < wiener_param):
         print("This Decryption Exponent is Vulnerable to Wiener's Attack")
 
-    if(d > boneh_param):
+    if(d > boneh_param and choice == '4'):
         print("This Decryption Exponent is above Boneh's Bound\n")
 
     print("Decrypting Cipher Text")
