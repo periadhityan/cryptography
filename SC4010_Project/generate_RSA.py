@@ -30,8 +30,6 @@ def vulnerable_rsa():
     first_loop = True
     while first_loop or gcd(e, phi) != 1 or n.nbits() != 2048:
         first_loop = False
-        # Note: Product of two 1024-bit primes not always 2048 bit
-        # As this is just a proof of concept, we just reject if n < 2048 bits.
         p = random_prime(2**1024-1, False, 2**1023)
         q = random_prime(2**1024-1, False, 2**1023)
         n = p * q

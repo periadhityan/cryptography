@@ -42,6 +42,7 @@ def main():
     print("Bit Length of Public Modulus N = {}\n".format(n.bit_length()))
 
     message = input("Enter mesage to encrypt: ")
+    print("\n")
 
     encoded_message = [ord(c) for c in message]
 
@@ -51,9 +52,9 @@ def main():
 
     wiener_d = wiener_attack.wiener_attack(e, n)
     wiener_param = real_nth_root(n, 4)
-    new_upper_bound = real_nth_root(n, 4)/2 + 1
-    new_bound = real_nth_root(n, 4)*real_nth_root(18, -4)
-    boneh_param = (real_nth_root(n, 4))/3
+    bound_1 = real_nth_root(n, 4)/2
+    new_bound = real_nth_root(n, 4)*(1/real_nth_root(18, 4))
+    boneh_param = real_nth_root(n, 4)/3
 
     if(wiener_d == "Decryption Exponent Not Found"):
         print(wiener_d)
@@ -62,19 +63,24 @@ def main():
         if(d>boneh_param):
             print("Decryption Exponent larger than basis of Wiener Attack for Boneh's Bound\n")
 
-        if(d < new_upper_bound and d < wiener_param):
-            print("However, this Decryption Exponent fits the basis for Wiener's Attack for Wiener's original Bound\n")
+        if(d < wiener_param and d > bound_1):
+            print("However, this Decryption Exponent fits the basis for Wiener's Attack for Wiener's original Bound")
+            print("Wiener's attack works for all d < N^1/4 is disproven\n")
         return
     
     print("Wiener Attack Succesful\n")
     print("Decryption Exponent D Found Using Wiener's Attack = {}\n".format(wiener_d))
     print("Bit Length of Decryption Exponent D = {}\n".format(wiener_d.bit_length()))
 
-    if(d < wiener_param):
+    if(d < boneh_param):
         print("This Decryption Exponent is Vulnerable to Wiener's Attack")
 
-    if(d > boneh_param and choice == '4'):
+    if(d > boneh_param):
         print("This Decryption Exponent is above Boneh's Bound\n")
+    
+    """if(d == new_bound):
+        print("This Decryption Exponent is lower than the new bound\n")"""
+
 
     print("Decrypting Cipher Text")
 
