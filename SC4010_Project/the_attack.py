@@ -1,9 +1,7 @@
-import wiener_attack, generate_rsa, math
+import wiener_attack, generate_rsa
+from sage.all import *
 
 def main():
-    
-    #e, n, d = generate_RSA.gen_vulnerable_keys()
-    #e, n, d = simple_RSA.RSA()
 
     inp_val = False
 
@@ -22,7 +20,7 @@ def main():
 
     if(choice == "1"):
         #Vulnerable set
-        print("Using Vulnerable RSA Keys")
+        print("Generating Vulnerable RSA Keys\n")
         n, e, d = generate_rsa.vulnerable_rsa()
 
         #e = 30749686305802061816334591167284030734478031427751495527922388099381921172620569310945418007467306454160014597828390709770861577479329793948103408489494025272834473555854835044153374978554414416305012267643957838998648651100705446875979573675767605387333733876537528353237076626094553367977134079292593746416875606876735717905892280664538346000950343671655257046364067221469807138232820446015769882472160551840052921930357988334306659120253114790638496480092361951536576427295789429197483597859657977832368912534761100269065509351345050758943674651053419982561094432258103614830448382949765459939698951824447818497599
@@ -31,7 +29,7 @@ def main():
 
     if(choice == "2"):
         #Non Vulnerable Set
-        print("Generating Non Vulnerable RSA Keys")
+        print("Generating Non Vulnerable RSA Keys\n")
         n, e, d = generate_rsa.strong_rsa()
 
     if(choice == '3'):
@@ -40,56 +38,50 @@ def main():
     if(choice == '4'):
         n, e, d = generate_rsa.smu_paper_vulnerable()
 
-    print("Bit Length of Encryption Exponent E = ", e.bit_length())
-    print("Bit Length of Public Modulus N = ", n.bit_length())
+    print("Bit Length of Encryption Exponent E = {}\n".format(e.bit_length()))
+    print("Bit Length of Public Modulus N = {}\n".format(n.bit_length()))
 
     message = input("Enter mesage to encrypt: ")
-    print()
 
-    #print("Public Encryption Component E =", e)
-    #print("Public Modulus N = ", n)
-    #print("Private Decryption Exponent D = ", d)
-
-    #print("Plain Text Message = ", message)
     encoded_message = [ord(c) for c in message]
-    #print("Encoded message = ", encoded_message)
 
     ciphertext = [pow(c, e, n) for c in encoded_message]
-    #print("Cipher Text = ", ciphertext)
 
-    print("Using Wiener's Attack to Decrypt Cipher Text")
-    print()
+    print("Using Wiener's Attack to Decrypt Cipher Text\n")
 
     wiener_d = wiener_attack.wiener_attack(e, n)
+    wiener_param = real_nth_root(n, 4)
+    new_upper_bound = real_nth_root(n, 4)/2 + 1
+    new_bound = real_nth_root(n, 4)*real_nth_root(18, -4)
+    boneh_param = (real_nth_root(n, 4))/3
 
     if(wiener_d == "Decryption Exponent Not Found"):
         print(wiener_d)
         print("This Decryption Exponent is NOT Vulnerable to Wiener's Attack")
-        print()
-        if(choice == '3'):
-            valid_param = (d**4)*3
-            if(valid_param<n):
-                print("However, this Decryption Exponent fits the basis for Wiener's Attack")
-                print()
+        print("Bit Length of Decryption Exponent D = {}\n".format(d.bit_length()))
+        if(d>boneh_param):
+            print("Decryption Exponent larger than basis of Wiener Attack for Boneh's Bound\n")
+
+        if(d < new_upper_bound and d < wiener_param):
+            print("However, this Decryption Exponent fits the basis for Wiener's Attack for Wiener's original Bound\n")
         return
     
-    print("Wiener Attack Succesful")
-    print()
-    print("Decryption Exponent D Found Using Wiener's Attack = ", wiener_d)
-    print("Bit Length of Decryption Exponent D = ", wiener_d.bit_length())
-    print()
-    valid_param = (wiener_d**4)*3
+    print("Wiener Attack Succesful\n")
+    print("Decryption Exponent D Found Using Wiener's Attack = {}\n".format(wiener_d))
+    print("Bit Length of Decryption Exponent D = {}\n".format(wiener_d.bit_length()))
 
-    if(valid_param < n):
+    if(d < boneh_param):
         print("This Decryption Exponent is Vulnerable to Wiener's Attack")
-        print()
+
+    if(d > boneh_param):
+        print("This Decryption Exponent is above Boneh's Bound\n")
 
     print("Decrypting Cipher Text")
 
     encoded_plaintext = [pow(c, wiener_d, n) for c in ciphertext]
     plaintext = "".join(chr(c) for c in encoded_plaintext)
 
-    print("Decrypted Message = ", plaintext)
+    print("Decrypted Message = {}\n".format(plaintext))
     print()
 
 def find_bound():
@@ -113,3 +105,4 @@ def find_bound():
 
 main()
 #find_bound()
+
