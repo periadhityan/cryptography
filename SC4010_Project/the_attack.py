@@ -75,10 +75,10 @@ def main():
     if(d < boneh_param):
         print("This Decryption Exponent is Vulnerable to Wiener's Attack")
 
-    if(d > boneh_param):
+    if(d > boneh_param and choice == '4'):
         print("This Decryption Exponent is above Boneh's Bound\n")
     
-    """if(d == new_bound):
+    """if(d < new_bound):
         print("This Decryption Exponent is lower than the new bound\n")"""
 
 

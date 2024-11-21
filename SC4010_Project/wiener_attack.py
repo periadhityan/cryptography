@@ -1,3 +1,5 @@
+from sage.all import *
+
 def wiener_attack(e, n):
 
     _, convergents = form_continued_fractions(e, n)
@@ -17,7 +19,13 @@ def wiener_attack(e, n):
             disc = s*s - 4*n
             if(disc>=0):
                 t = is_perf_sq(disc)
-                if t!=-1 and (s+t)%2==0:                    
+                if t!=-1 and (s+t)%2==0:
+                    p = (s + real_nth_root(disc, 2))/2
+                    q = (s - real_nth_root(disc, 2))/2
+
+                    """if(p*q == n):
+                        print("Validated n")"""
+                                    
                     return d
         if(print_conv):        
             print("Invalid convergents")
